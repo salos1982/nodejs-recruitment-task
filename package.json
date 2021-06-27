@@ -1,0 +1,40 @@
+{
+  "name": "movie-api",
+  "version": "1.0.0",
+  "description": "Test task for https://github.com/netguru/nodejs-recruitment-task",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "jest",
+    "run": "node src/app.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./tests/environment.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salos1982/nodejs-recruitment-task.git"
+  },
+  "keywords": [
+    "api",
+    "nodejs"
+  ],
+  "author": "Siarhei Salazhentsau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salos1982/nodejs-recruitment-task/issues"
+  },
+  "homepage": "https://github.com/salos1982/nodejs-recruitment-task#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.5",
+    "supertest": "^6.1.3"
+  }
+}
