@@ -7,7 +7,7 @@ const OMDbService = require('./externalService/OMDbService');
 const config = require('../config');
 const MongooseDataStorage = require('./dataStorage/MongooseDataStorage');
 
-const PORT = 5000;
+const PORT = process.env.APP_PORT || 5000;
 
 const app = express();
 app.use(express.json({ limit: '1000kb' }));
@@ -57,7 +57,7 @@ function getDatabaseUrl() {
     return config.testMongoDbUrl;
   }
 
-  return config.mongoDbUrl;
+  return process.env.MONGO_URL || config.mongoDbUrl;
 }
 
 function getStorage() {

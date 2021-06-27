@@ -1,14 +1,27 @@
 version: "3.2"
 services:
-  app:
-    command: node src/app.js
+  mongo:
+    image: "mongo:latest"
+        
+  auth:
     build:
-      context: .
+      context: ./Auth
+      dockerfile: Dockerfile
+    ports:
+      - published: ${AUTH_PORT:-3000}
+        target: 3000
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  api:
+    build:
+      context: ./MovieAPI
       dockerfile: Dockerfile
     ports:
       - published: ${APP_PORT:-5000}
         target: 5000
-    volumes:
-      - .:/app/
     environment:
       JWT_SECRET: ${JWT_SECRET}
+      MONGO_URL: 'mongodb://mongo:27017/db'
+    depends_on:
+      - mongo
