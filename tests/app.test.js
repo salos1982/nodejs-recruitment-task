@@ -1,8 +1,9 @@
 const request = require('supertest');
 const axios = require('axios');
 
-const { app, server, api } = require('../src/app');
+const { app, getServer, getStorage, startServerPromise } = require('../src/app');
 const config = require('../config');
+const { response } = require('express');
 
 async function getBasicUserToken() {
   const authOptions = {
@@ -36,21 +37,32 @@ async function getPremiumUserToken() {
 
 describe('api call tests', () => {
   afterAll(async () => {
-    await server.close();
+    await getServer().close();
+    await getStorage().close();
   })
 
   beforeEach(async() => {
-    await api.dataStorage.reset();
+    if (getStorage()) {
+      await getStorage().reset();
+    }
   })
+
+  beforeAll(async () => {
+    await startServerPromise;
+  })
+
   it('create single movie', async () => {
     const userToken = await getPremiumUserToken();
+    const title = 'Terminator';
 
-    await request(app)
-    .post('/movies')
-    .set('Authorization', `Bearer ${userToken}`)
-    .send({ title: 'Terminator' })
-    .expect(200)
-    .expect('Content-Type', /json/);
+    const response = await request(app)
+      .post('/movies')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ title: 'Terminator' })
+      .expect(200)
+      .expect('Content-Type', /json/);
+    
+      expect(response.body.title).toBe(title);
   })
  
   it('create 6 movies for basic user', async () => {
@@ -138,5 +150,28 @@ describe('api call tests', () => {
     .set('Authorization', `Bearer asdlkansdnalnsd;snd;ljsnd;abskdlalksbdlkbaskblkb`)
     .send({ title: 'Terminator' })
     .expect(401)
+  })
+
+  it('test getting movies', async () => {
+    const userToken = await getPremiumUserToken();
+    const title = 'Terminator';
+
+    const createResponse = await request(app)
+      .post('/movies')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ title })
+      .expect(200)
+      .expect('Content-Type', /json/);
+
+    expect(createResponse.body.title).toBe(title);
+
+    const getResponse = await request(app)
+      .get('/movies')
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(200)
+      .expect('Content-Type', /json/);
+
+    expect(getResponse.body).toHaveLength(1);
+    expect(getResponse.body[0].title).toBe(title);
   })
 })

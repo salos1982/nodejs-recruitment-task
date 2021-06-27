@@ -31,8 +31,8 @@ class MovieAPI {
     throw new APIError(404, 'movie not found');
   }
 
-  async getMoviesByUser() {
-    return await this.dataStorage.getAllMovies();
+  async getMoviesByUser(user) {
+    return await this.dataStorage.getMoviesForUser(user.id);
   }
 }
 

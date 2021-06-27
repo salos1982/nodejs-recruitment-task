@@ -28,7 +28,12 @@ class OMDbService extends MoviesExternalService {
 
     const movie = new Movie();
     movie.title = response.Title;
-    movie.releaseDate = Date.parse(response.ReleaseDate);
+    if (response.ReleaseDate) {
+      movie.releaseDate = Date.parse(response.ReleaseDate);
+    } else {
+      movie.releaseDate = null;
+    }
+    
     movie.genre = response.Genre;
     movie.director = response.Director;
 

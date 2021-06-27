@@ -9,7 +9,7 @@ class JSONFileDataStorage extends MoviesStorage {
     this.filePath = 'db.json';
   }
 
-  async getAllMovies() {
+  async getMoviesForUser() {
     if (fs.existsSync(this.filePath)) {
       const data = JSON.parse(fs.readFileSync(this.filePath));
       return data.map(item => {
@@ -26,7 +26,7 @@ class JSONFileDataStorage extends MoviesStorage {
   }
 
   async saveMovie(movie, userId) {
-    const allMovies = await this.getAllMovies();
+    const allMovies = await this.getMoviesForUser();
     const movieData = { ...movie };
     movieData.createdBy = userId;
     movieData.createdAt = new Date();
@@ -35,7 +35,7 @@ class JSONFileDataStorage extends MoviesStorage {
   }
 
   async getCreatedMoviesCountThisMonth(userId) {
-    const allMovies = await this.getAllMovies();
+    const allMovies = await this.getMoviesForUser();
     const count = allMovies.reduce((accum, curValue) => accum + ((curValue.createdBy === userId) ? 1: 0), 0);
     return count;
   }
@@ -47,7 +47,7 @@ class JSONFileDataStorage extends MoviesStorage {
   }
 
   async getMovieByTitle(title) {
-    const allMovies = await this.getAllMovies();
+    const allMovies = await this.getMoviesForUser();
     return allMovies.find(item => item.title === title);
   }
 }

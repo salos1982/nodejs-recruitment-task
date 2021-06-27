@@ -6,6 +6,7 @@ const MovieAPI = require('./movieAPI');
 const OMDbService = require('./externalService/OMDbService');
 const config = require('../config');
 const JSONFileDataStorage = require('./dataStorage/JSONFileDataStorage');
+const MongooseDataStorage = require('./dataStorage/MongooseDataStorage');
 
 const PORT = 5000;
 
@@ -13,7 +14,7 @@ const app = express();
 app.use(express.json({ limit: '1000kb' }));
 app.use(authMiddleware);
 
-const api = new MovieAPI(new JSONFileDataStorage(), new OMDbService(config.OMDbApiKey));
+let api;
 
 app.post('/movies', async (req, res) => {
   const { title } = req.body;
@@ -41,16 +42,49 @@ app.post('/movies', async (req, res) => {
 });
 
 app.get('/movies', async (req, res) => {
-  const movies = await api.getMoviesByUser();
+  const { user } = req;
+
+  const movies = await api.getMoviesByUser(user);
   res.status(200).json(movies);
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Movie service is running at port ${PORT}`);
-});
+let server = null;
+function getServer() {
+  return server;
+}
+
+function getDatabaseUrl() {
+  if (process.env.NODE_ENV === 'test') {
+    return config.testMongoDbUrl;
+  }
+
+  return config.mongoDbUrl;
+}
+
+function getStorage() {
+  if (api) {
+    return api.dataStorage;
+  }
+
+  return null;
+}
+
+async function startServer() {
+  const dataStorage = new MongooseDataStorage(getDatabaseUrl())
+  await dataStorage.init();
+
+  api = new MovieAPI(dataStorage, new OMDbService(config.OMDbApiKey));
+
+  server = app.listen(PORT, () => {
+    console.log(`Movie service is running at port ${PORT}`);
+  });
+}
+
+const startServerPromise = startServer();
 
 module.exports = {
   app,
-  server,
-  api,
+  getServer,
+  getStorage,
+  startServerPromise,
 }

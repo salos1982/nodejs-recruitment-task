@@ -17,9 +17,8 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const tokenData = jwt.verify(tokenParts[1], JWT_SECRET);
-    req.user = new User(tokenData.id, tokenData.role, tokenData.name);
+    req.user = new User(tokenData.userId, tokenData.role, tokenData.name);
   } catch(err) {
-    console.error(err.message)
     return res.status(401).json({ message: err.message });
   }
 
