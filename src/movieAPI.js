@@ -1,5 +1,5 @@
-const { APIError } = require('./apiError');
-const MoviesLogic = require('./MoviesLogic');
+const { APIError } = require('./DomainObjects/APIError');
+const MoviesLogic = require('./DomainObjects/MoviesLogic');
 
 class MovieAPI {
   constructor(dataStorage, externalInfoService) {

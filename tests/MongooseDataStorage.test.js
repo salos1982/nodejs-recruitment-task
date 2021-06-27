@@ -1,7 +1,7 @@
 const config = require('../config');
 const MongooseDataStorage = require('../src/dataStorage/MongooseDataStorage');
 const MoviesModel = require('../src/dataStorage/MoviesModel');
-const Movie = require('../src/Movie');
+const Movie = require('../src/DomainObjects/Movie');
 
 describe('test MongooseDataStorage api', () => {
   let dataStorage = null;

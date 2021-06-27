@@ -1,11 +1,10 @@
 const express = require("express");
 require('express-async-errors');
 const { authMiddleware } = require('./middleware/auth')
-const { APIError } = require('./apiError')
+const { APIError } = require('./DomainObjects/APIError')
 const MovieAPI = require('./movieAPI');
 const OMDbService = require('./externalService/OMDbService');
 const config = require('../config');
-const JSONFileDataStorage = require('./dataStorage/JSONFileDataStorage');
 const MongooseDataStorage = require('./dataStorage/MongooseDataStorage');
 
 const PORT = 5000;

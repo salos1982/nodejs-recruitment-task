@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-const MoviesExternalService = require('../moviesExtenalService');
-const { APIError } = require('../apiError');
-const Movie = require('../Movie');
+const MoviesExternalService = require('../interface/moviesExtenalService');
+const { APIError } = require('../DomainObjects/APIError');
+const Movie = require('../DomainObjects/Movie');
 
 class OMDbService extends MoviesExternalService {
   constructor(apiKey) {

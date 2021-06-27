@@ -1,6 +1,6 @@
-const { APIError } = require('../src/apiError');
+const { APIError } = require('../src/DomainObjects/APIError');
 const MovieAPI = require('../src/movieAPI');
-const User = require('../src/User');
+const User = require('../src/DomainObjects/User');
 
 describe('test movie api createMovie', () => {
   it('successful creation', async () => {

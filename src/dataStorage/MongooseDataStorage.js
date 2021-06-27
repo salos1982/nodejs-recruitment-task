@@ -1,9 +1,9 @@
 const moment = require('moment');
 const mongoose = require('mongoose');
 const config = require('../../config');
-const Movie = require('../Movie');
+const Movie = require('../DomainObjects/Movie');
 
-const MoviesStorage = require('../moviesStorage');
+const MoviesStorage = require('../interface/moviesStorage');
 const MoviesModel = require('./MoviesModel');
 
 class MongooseDataStorage extends MoviesStorage {

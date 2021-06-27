@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../User');
+const User = require('../DomainObjects/User');
 
 const scheme = 'Bearer';
 const { JWT_SECRET } = process.env;

@@ -1,5 +1,5 @@
-const config = require('../config');
-const { APIError } = require('./apiError');
+const config = require('../../config');
+const { APIError } = require('./APIError');
 
 class MoviesLogic {
   constructor(dataStorage) {
