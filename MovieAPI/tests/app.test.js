@@ -3,7 +3,10 @@ const axios = require('axios');
 
 const { app, getServer, getStorage, startServerPromise } = require('../src/app');
 const config = require('../config');
-const { response } = require('express');
+
+function getAuthUrl() {
+  return process.env.AUTH_URL || config.authUrl;
+}
 
 async function getBasicUserToken() {
   const authOptions = {
@@ -16,7 +19,8 @@ async function getBasicUserToken() {
       password: 'sR-_pcoow-27-6PAwCD8',
     }
   }
-  const response = await axios(config.authUrl, authOptions);
+  const url = getAuthUrl();
+  const response = await axios(url, authOptions);
   return response.data.token;
 }
 
@@ -31,7 +35,8 @@ async function getPremiumUserToken() {
       password: 'GBLtTyq3E_UNjFnpo9m6',
     }
   }
-  const response = await axios(config.authUrl, authOptions);
+  const url = getAuthUrl();
+  const response = await axios(url, authOptions);
   return response.data.token;
 }
 

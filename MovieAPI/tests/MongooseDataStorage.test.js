@@ -7,7 +7,8 @@ describe('test MongooseDataStorage api', () => {
   let dataStorage = null;
 
   beforeAll( async () => {
-    dataStorage = new MongooseDataStorage(config.testMongoDbUrl);
+    const mongoUrl = process.env.TEST_MONGO_URL || config.testMongoDbUrl;
+    dataStorage = new MongooseDataStorage(mongoUrl);
     await dataStorage.init();
   })
 

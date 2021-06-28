@@ -54,7 +54,7 @@ function getServer() {
 
 function getDatabaseUrl() {
   if (process.env.NODE_ENV === 'test') {
-    return config.testMongoDbUrl;
+    return process.env.TEST_MONGO_URL || config.testMongoDbUrl;
   }
 
   return process.env.MONGO_URL || config.mongoDbUrl;
