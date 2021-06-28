@@ -21,10 +21,10 @@ class MovieAPI {
     
     const movie = await this.externalInfoService.getMovieInfo(title);
     if (movie) {
-      await this.dataStorage.saveMovie(movie, user.id);
+      const created = await this.dataStorage.saveMovie(movie, user.id);
       return {
         movie,
-        created: true,
+        created,
       }
     }
       

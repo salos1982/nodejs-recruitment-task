@@ -3,16 +3,6 @@ services:
   mongo:
     image: "mongo:latest"
         
-  auth:
-    build:
-      context: ./Auth
-      dockerfile: Dockerfile
-    ports:
-      - published: ${AUTH_PORT:-3000}
-        target: 3000
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-
   api:
     build:
       context: ./MovieAPI
