@@ -31,7 +31,7 @@ jobs:
       run: npm install
       working-directory: ./Auth
     - name: run Auth service
-      run: node ./src/server.js
+      run: node ./src/server.js &
       working-directory: ./Auth
       env:
         JWT_SECRET: secret
@@ -43,4 +43,5 @@ jobs:
       working-directory: ./MovieAPI
       env:
         JWT_SECRET: secret
+        AUTH_URL: http://localhost:3000/auth
         TEST_MONGO_URL: mongodb://localhost:27017/db_test # Access mongoDB Docker container
